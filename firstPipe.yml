@@ -1,0 +1,23 @@
+resources:
+  - name: gildock_dockerfile
+    type: git
+    source:
+      uri: https://github.com/gilbertond/concourse.git
+      branch: master
+      paths:  [Dockerfile]
+
+  - name: gildock_docker_build
+    type: docker-image
+    source:
+      repository: gilbertond/gildock
+      email:  ryumugil@gmail.com
+      username: gilbertond
+      password: gillygilly
+
+jobs:
+  - name: gildock_image_build_job
+    plan:
+      - get:  gildock_dockerfile
+        trigger:  true
+      - put:  gildock_docker_build
+        params: {build: gildock_dockerfile}
